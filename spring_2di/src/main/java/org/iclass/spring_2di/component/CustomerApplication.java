@@ -14,7 +14,8 @@ public class CustomerApplication {
 
         
         log.info("###############################");
-        CustomerDao dao = context.getBean(CustomerDao.class);
+        CustomerDao dao = context.getBean(CustomerDao.class);               // 타입으로 bean 매칭(bean 은 기본이 싱글톤)
+        // CustomerDao dao2 = (CustomerDao) context.getBean("CustomerDao"); // 이름으로 bean 매칭
         dao.setGroups();
         
         log.info("###############################");
