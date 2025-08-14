@@ -3,9 +3,11 @@ package org.iclass.spring_3mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.iclass.spring_3mybatis.dto.BuyDto;
 import org.iclass.spring_3mybatis.dto.CustomerBuyDto;
 
+@Mapper
 public interface BuyMapper {
   List<BuyDto> selectByCustomer(String customer_id);
 
@@ -16,7 +18,7 @@ public interface BuyMapper {
   int selectSumByPcode(String pcode);
 
   // join
-  List<CustomerBuyDto> selectBuyByCustomer(String cutomer_id);
+  List<CustomerBuyDto> selectSaleByCustomer(String cutomer_id);
 
   // count 집계 합수
   Map<String, Integer> selectCountByYear(String year);
