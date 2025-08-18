@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "spring4restapiApplication",
+            "request": "launch",
+            "mainClass": "org.iclass.spring_4restapi.spring4restapiApplication",
+            "projectName": "spring_4restapi"
+        },
+        {
+            "type": "java",
             "name": "Spring2diApplication",
             "request": "launch",
             "mainClass": "org.iclass.spring_2di.Spring2diApplication",
