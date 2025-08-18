@@ -1,5 +1,6 @@
 package org.iclass.spring_4restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.iclass.spring_4restapi.dto.CustomerDto;
 import org.iclass.spring_4restapi.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +30,22 @@ public class CustomerRestController {
     private CustomerService service;
     // customer 등록
     @PostMapping("/api/customers")
-    public ResponseEntity<?> save(@RequestBody CustomerDto dto) {
+    public ResponseEntity<?> save(
+        @Valid
+        @RequestBody
+        CustomerDto dto,
+        BindingResult bindingResult) {
+
+        // 유효성 검사 오류를 담는 객체 bindingResult. 오류가 생기면 hasErrors() 가 '참'
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();   // 유효성 오류 내용 저장 객체
+            bindingResult.getFieldErrors().forEach(err -> {
+                // bindingResult.getFieldErrors() : 모든 필드 오류 목록 가져오기
+                errors.put(err.getField(), err.getDefaultMessage());
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         // @RequestBody : 요청의 본문 json 문자열을 자바 CustomerDto 타입 객체로 변환
         //                여러개의 값을 dto 타입으로 받을 때 필요
         // insert 는 db에서 무결성위반 등 오류 발생 가능성 있음
@@ -60,10 +78,28 @@ public class CustomerRestController {
 
     // customer 업데이트
     @PutMapping("/api/customer/{customerid}")
-    public ResponseEntity<?> update(@PathVariable String customerid, @RequestBody CustomerDto dto) {
+    public ResponseEntity<?> update(
+        @Valid
+        @PathVariable String customerid,
+        @RequestBody CustomerDto dto,
+        BindingResult bindingResult) {
+
+        // 유효성 검사 오류를 담는 객체 bindingResult. 오류가 생기면 hasErrors() 가 '참'
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();   // 유효성 오류 내용 저장 객체
+            bindingResult.getFieldErrors().forEach(err -> {
+                // bindingResult.getFieldErrors() : 모든 필드 오류 목록 가져오기
+                errors.put(err.getField(), err.getDefaultMessage());
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
+        
         // 회원 정보 이메일, 나이 수정
         try {
             int result = service.updateCustomer(dto);
+            if (result == 0) {  // id 값의 행이 없다면 예외는 아니고 반영된 행이 0개
+                throw new IllegalAccessException("id : " + customerid + " 존재 하지 않습니다.");
+            }
             return ResponseEntity.ok().body(Map.of("success", result));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -75,6 +111,9 @@ public class CustomerRestController {
     public ResponseEntity<?> delete(@PathVariable String customerid) {
         try {
             int result = service.deleteCustomer(customerid);
+            if (result == 0) {  // id 값의 행이 없다면 예외는 아니고 반영된 행이 0개
+                throw new IllegalAccessException("customerid : " + customerid + " 존재 하지 않습니다.");
+            }
             return ResponseEntity.ok().body(Map.of("success", result));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
