@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
-@Transactional
-@Service
+@Transactional  // 오류생기면 자동으로 롤백
+@Service    // Service Bean 으로 등록
 public class CustomerService {
     private CustomerMapper mapper;
 

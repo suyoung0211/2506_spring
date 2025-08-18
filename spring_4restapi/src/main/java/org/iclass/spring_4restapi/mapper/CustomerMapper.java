@@ -10,11 +10,11 @@ import org.iclass.spring_4restapi.dto.CustomerDto;
 // dao 역할을 하는 인터페이스
 @Mapper
 public interface CustomerMapper {
-CustomerDto selectByPk(String customerId);
-    
-List<CustomerDto> selectAll();
-
 int insert(CustomerDto dto);
+
+List<CustomerDto> selectAll();
+    
+CustomerDto selectByPk(String customerId);
 
 int update(CustomerDto dto);
 

@@ -68,7 +68,7 @@ public class CustomerRestController {
     }
 
     // 특정 customer 조회
-    @GetMapping("/api/customers/{customerid}")
+    @GetMapping("/api/customer/{customerid}")
     public ResponseEntity<CustomerDto> getCustomer(@PathVariable String customerid) {
         return ResponseEntity.ok().body(service.getCustomer(customerid));
 
@@ -95,8 +95,8 @@ public class CustomerRestController {
         }
         
         // 회원 정보 이메일, 나이 수정
+        int result = service.updateCustomer(dto);
         try {
-            int result = service.updateCustomer(dto);
             if (result == 0) {  // id 값의 행이 없다면 예외는 아니고 반영된 행이 0개
                 throw new IllegalAccessException("id : " + customerid + " 존재 하지 않습니다.");
             }
@@ -109,8 +109,8 @@ public class CustomerRestController {
     // customer 삭제
     @DeleteMapping("/api/customer/{customerid}")
     public ResponseEntity<?> delete(@PathVariable String customerid) {
+        int result = service.deleteCustomer(customerid);
         try {
-            int result = service.deleteCustomer(customerid);
             if (result == 0) {  // id 값의 행이 없다면 예외는 아니고 반영된 행이 0개
                 throw new IllegalAccessException("customerid : " + customerid + " 존재 하지 않습니다.");
             }
