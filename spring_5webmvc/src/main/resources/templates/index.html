@@ -4,6 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
+    <link rel="stylesheet" href="/css/nav.css">
   </head>
   <body>
     <h1>INDEX</h1>
@@ -23,11 +24,21 @@
         임의로 하위폴더 생성 가능.
       </li>
     </ul>
+    <p>스프링부트 웹애플리케이션은 root context (http://localhost:8080/ 에서 마지막 /) 와 연결되는</p>
+    <p>View 는 index.html (홈, 인덱스 화면) 입니다.</p>
+    <h3>예제 URL</h3>
+    <ul id="nav">
+        <li><a href="/login">/login</a></li>
+        <li><a href="/join">/join</a></li>
+        <li><a href="/list">/list</a></li>
+    </ul>
+
     <!-- 
     1. 뷰리졸버
     2. 파라미터 가져오기
     3. 애트리뷰트 저장하고 View 전달하기
     4. 2&3 을 합친 ModelAttribute 사용하기
     -->
+
   </body>
 </html>
