@@ -54,4 +54,8 @@
     GROUP BY EXTRACT(YEAR FROM BUY_DATE)
     ORDER BY year
   </select>
+
+  <select id="selectAll" resultType="BuyDto">
+    SELECT * FROM TBL_BUY
+  </select>
 </mapper>

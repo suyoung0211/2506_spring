@@ -36,7 +36,7 @@ public class TestController_4Attribute {
 
     // customer/list 에 필요한 애트리뷰트 page, dto, list 는 저장 안하고 테스트
     @GetMapping("/customer/cuslist")
-    public String getMethodName(Model model) {
+    public String selectAll(Model model) {
         List<CustomerDto> cusList = customerMapper.selectAll();
         model.addAttribute("cusList", cusList);
         return "customer/list";

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy 연습</title>
+    <link rel="stylesheet" href="/css/table.css">
+</head>
+<body>
+    <h1 style="text-align: center;">Buy List</h1>
+    <table>
+        <tr>
+            <th>buy_seq</th>
+            <th>customer_id</th>
+            <th>pcode</th>
+            <th>quantity</th>
+            <th>buy_date</th>
+        </tr>
+        <tr th:each="dto : ${list}">
+            <td th:text="${dto.buy_seq}"></td>
+            <td th:text="${dto.customer_id}"></td>
+            <td th:text="${dto.pcode}"></td>
+            <td th:text="${dto.quantity}"></td>
+            <td th:text="${#dates.format(dto.buy_date, 'yyyy-MM-dd')}"></td>
+        </tr>
+    </table>
+</body>
+</html>

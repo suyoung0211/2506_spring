@@ -23,7 +23,10 @@ public interface BuyMapper {
   // count 집계 합수
   Map<String, Integer> selectCountByYear(String year);
   
-  // 
+  // 연도별 count
   List<Map<String, Object>> selectAllCountByYear();
+
+  // 전체 list
+  List<BuyDto> selectAll();
   
 }
