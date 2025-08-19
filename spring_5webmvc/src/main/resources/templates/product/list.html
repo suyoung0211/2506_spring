@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>product/list</title>
+    <link rel="stylesheet" href="/css/table.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <h1>product/list</h1>
+    <hr>
+    <table>
+        <tr>
+            <td>pcode</td>
+            <td>category</td>
+            <td>pname</td>
+            <td>price</td>
+        </tr>
+        <tr th:each="pdDto : ${pdList}">
+            <td th:text="${pdDto.pcode}"></td>
+            <td th:text="${pdDto.category}"></td>
+            <td th:text="${pdDto.pname}"></td>
+            <td th:text="${#numbers.formatCurrency(pdDto.price)}"></td>
+        </tr>
+    </table>
+
+    <ul id="nav" style="justify-content: center;">
+        <li><a href="/">home</a></li>
+        <li><a href="/customer/list">customers</a></li>
+    </ul>
+
+    <div>
+        사용자가 요청 -- (입력 : 파라미터) -- 컨트롤러 -- (출력 : 애트리뷰트) -- View(타임리프 html) -- 사용자 응답
+    </div>
+    <div>
+        여기서 입력값 파라미터(keyword)가 컨트롤러에서 처리된 후에 다시 출려값 애트리뷰트(keyword)로 활용될 수 있습니다.
+    </div>
+    <div>
+        이런 경우 @ModelAttribute 로 구현할 수 있습니다.
+    </div>
+    <div>
+        <a href="search">클릭 - int page 일 때 오류</a>
+        int page 로 파라미터 선언하면 page 가 null 일 때 오류 발생. String page 로 선언
+    </div>
+    <div>
+        <a href="/product/search?keyword=라면&page=99">클릭 - keyword=라면&page=99</a>
+    </div>
+    <h2>DTO 타입의 파라미터 테스트</h2>
+    <div>
+        <a href="search2?pcode=ABC&pname=라면&price=200">클릭 - search2?pcode=ABC&pname=라면&price=200</a>
+    </div>
+
+    <h3>상품 검색</h3>
+    <p>모델애트리뷰트 연습</p>
+    <form action="list" method="POST">
+        <input type="text" name="keyword" placeholder="상품 검색어를 입력하세요." th:value="${keyword}">
+        <button type="submit">검색</button>
+    </form>
+</body>
+</html>
