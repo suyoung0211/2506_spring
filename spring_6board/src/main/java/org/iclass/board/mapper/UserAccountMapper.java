@@ -9,6 +9,5 @@ import org.iclass.board.dto.UserAccount;
 @Mapper
 public interface UserAccountMapper {
 		int insert(UserAccount dto);
-		
 		UserAccount selectForLogin(Map<String,String> map);
 }

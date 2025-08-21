@@ -5,17 +5,18 @@
 <mapper namespace="org.iclass.board.mapper.UserAccountMapper">
 	<!-- UserAccount dto 클래스와 UserAccountMapper 인터페이스 만드세요. -->
 	<insert id="insert" parameterType="UserAccount">
-	INSERT INTO USER_ACCOUNT 
-	(userid, username, password, birth, gender, email) 
-    VALUES
-    (#{userid}, #{username}, #{password}, #{birth}, #{gender}, #{email})
+		INSERT INTO USER_ACCOUNT 
+			   (userid, username, password, birth, gender, email) 
+        VALUES
+               (#{userid}, #{username}, #{password}, #{birth}, #{gender}, #{email})
 	</insert>
 
-	<select id="selectForLogin" parameterType="java.util.Map" resultType="UserAccount">
+	<select id="selectForLogin" parameterType="java.util.Map" 
+								resultType="UserAccount">
 	<!-- 2개의 파라미터를 저장하기위해 Map 사용 : Map 에 저장되는 key 는 userid, password-->
-	SELECT *
-	FROM USER_ACCOUNT
-	WHERE userid=#{userid} and password=#{password}
+		SELECT * FROM 
+					USER_ACCOUNT
+				 WHERE userid=#{userid} and password=#{password}
 	</select>
 </mapper>   
 <!-- 

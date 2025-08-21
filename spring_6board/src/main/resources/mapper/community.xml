@@ -26,8 +26,7 @@
 	<select id="selectPageList" parameterType="java.util.Map" 
 				  resultType="CommunityDTO">
 		SELECT * FROM 
-			(SELECT rownum r, f.*
-				FROM
+			(SELECT rownum r ,f.* from
 				(SELECT * FROM community  ORDER BY idx DESC) f)
 		WHERE r BETWEEN #{startNo} AND #{endNo}	
 	</select>

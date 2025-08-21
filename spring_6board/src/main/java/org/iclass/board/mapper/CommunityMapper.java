@@ -8,17 +8,17 @@ import org.iclass.board.dto.CommunityDTO;
 
 @Mapper
 public interface CommunityMapper {
-	List<CommunityDTO> selectAll();
-	
-	CommunityDTO selectByIdx(long idx);
-	
-	int setReadCount(long idx);
-
 	int getAllCount();
 
-	List<CommunityDTO> selectPageList(Map<Integer, Integer> map);
-	
+	List<CommunityDTO> selectAll();
+
+	List<CommunityDTO> selectPageList(Map<String, Integer> map);
+
 	int insert(CommunityDTO dto);
+
+	CommunityDTO selectByIdx(long idx);
+
+	int setReadCount(long idx);
 
 	int update(CommunityDTO dto);
 
