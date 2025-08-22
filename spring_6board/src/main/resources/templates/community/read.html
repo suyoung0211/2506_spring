@@ -92,27 +92,60 @@
 						[[${dto.commentCount}]]</span>
 				</h4>
 				<div class="row mt-3">
-					<hr />
-					<!-- 이 글의 idx 로 조회한 댓글 목록이 출력됩니다.-->
-					<ul class="list-group myfs-9" id="replyList">
-						<li class="list-group-item d-flex">
-							<span class="col-5 myfc-1">${dto.writer}</span>
-							<span class="col-6">${dto.createdAt}</span>
-							<span class="col-1">
-								<!-- 삭제 아이콘 -->
-								<i class="bi bi-trash" data-num="${dto.idx}"></i>
-							</span>
-						</li>
-						<li class="list-group-item d-flex">
-							<textarea class="form-control myfs-9" disabled>${dto.content}</textarea>
-						</li>
-					</ul>
-					<!-- 여기 까지 댓글 목록 -->
+
+				<!-- 댓글 쓰기 -->
+				<div class="row">
+					<input type="hidden" id="writer" th:value="${session.username}">
+					<input type="hidden" id="mref" th:value="${dto.idx}">
+					<!-- 에러 표시하기 -->
+					<div id="content-error" class="text-danger small errorMsg"></div>
+					<div class="input-group mb-3">
+						
+						<!-- input : single line, textarea : multi line -->
+						<textarea class="form-control" rows="5" id="content"></textarea>
+						
+						<!-- 로그인 상태 O : 저장 버튼 -->
+						 <th:block th:if="${session.username != null}">
+							<button type="button" class="btn btn-outline-secondary" id="btnSave">저장</button>
+						 </th:block>
+
+						<!-- 로그인 상태 X : 저장 버튼 -->
+						 <th:block th:unless="${session.username != null}">
+							<button type="button" class="btn btn-outline-secondary" id="btnLogin">로그인</button>
+						 </th:block>
+					</div>
+				</div>
+				<hr />
+				
+				<!-- 이 글의 idx 로 조회한 댓글 목록이 출력됩니다. : 자바스크립트에서 합니다. -->
+				<ul class="list-group myfs-9" id="replyList">
+						
+					<!-- js 에서 만들어서 기존에 있던 li 는 삭제 -->
+					<li class="list-group-item d-flex">
+						<span class="col-5 myfc-1">${dto.writer}</span>
+						<span class="col-6">${dto.createdAt}</span>
+						<span class="col-1">
+							<!-- 삭제 아이콘 -->
+							<i class="bi bi-trash" data-num="${dto.idx}"></i>
+						</span>
+					</li>
+					<li class="list-group-item d-flex">
+						<textarea class="form-control myfs-9" disabled>${dto.content}</textarea>
+					</li>
+						
+				</ul>
+				
+				<!-- 여기 까지 댓글 목록 -->
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<script>
+		// comments.js 는 프론트엔드 정적 리소스 이므로 백엔드 세션값을 직접 가져갈 수 없습니다.
+		// 백엔드 타임리프 html 의 script 태그는 가능합니다. comments.js 가 사용할 수 있게 변수 값 할당
+		const username = '[[${session.username}]]'
+		const mref = '[[${dto.idx}]]'         // 모든 댓글의 mref
+	</script>
+	<script src="/js/comments.js"></script>
 </body>
-
 </html>

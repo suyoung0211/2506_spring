@@ -38,9 +38,12 @@ public class CommunityService {
 
 		// 현재 페이지를 기준으로 페이지목록(10개 페이지 지정) 시작번호
 		// currentPage 가 1~10 , 11~20 , 21~30 은 각각 모두 같은 startPage 가 계산됩니다.
-		int startPage = (currentPage - 1) / 10 * 10 + 1; // 21
-		int endPage = startPage + (10 - 1); // 30
+		int size = 10;	// 페이지목록 길이
+		int startPage = (currentPage - 1) / size * size + 1; // 21
+		int endPage = startPage + (size - 1); // 30
 		endPage = Math.min(totalPages, endPage); // endPage 는 totalPages 보다 크면 안됩니다.
+
+
 
 		PageResponseDTO responseDTO = PageResponseDTO.builder()
 				.totalCount(totalCount)
@@ -53,12 +56,14 @@ public class CommunityService {
 		return responseDTO;
 	}
 
+	// 글 조회
 	public CommunityDTO read(long idx, boolean readCount) {
 		if (readCount)
 			mapper.setReadCount(idx); // 조회수 증가
 		return mapper.selectByIdx(idx);
 	}
 
+	// 글 작성
 	public void write(CommunityDTO dto) {
 		mapper.insert(dto);
 	}
