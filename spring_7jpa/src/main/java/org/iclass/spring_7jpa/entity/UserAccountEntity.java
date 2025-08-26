@@ -24,8 +24,7 @@ import lombok.ToString;
 @Table(name = "user_account")
 @Entity
 public class UserAccountEntity {
-    
-    @Id
+    @Id // PK
     @Column(nullable = false)
     private String userid;
     

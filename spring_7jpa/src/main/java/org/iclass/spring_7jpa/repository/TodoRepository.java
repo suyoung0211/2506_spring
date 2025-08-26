@@ -4,6 +4,8 @@ import org.iclass.spring_7jpa.entity.TodoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -20,7 +22,7 @@ public interface TodoRepository  extends JpaRepository<TodoEntity, Long> {
     List<TodoEntity> findByUsername(String username);
     
     // where username = ? order by createdAt desc
-    List<TodoEntity> findByusernameOrderByCreatedAt(String username);
+    List<TodoEntity> findByUsernameOrderByCreatedAtDesc(String username);
 
     // where createdAt = ?
     List<TodoEntity> findByCreatedAt(LocalDateTime createdAt);
@@ -30,4 +32,19 @@ public interface TodoRepository  extends JpaRepository<TodoEntity, Long> {
 
     // where username = ?
     Page<TodoEntity> findByUsername(String username, Pageable pageable);
+
+    Boolean existsByUsername(String username);
+
+    // 직접 SQL 작성
+    // 1) 네이티브 SQL 예시 : nativeQuery = true 속성 필수
+    // FROM todo_test (테이블 이름)
+    // AND done = false (컬럼명 done, 컬럼값 0 또는 1)
+    @Query(value = "SELECT * FROM todo_test WHERE username = :username AND done = 0", nativeQuery = true)
+    List<TodoEntity> findIncompleteTodosByUsernameNative(@Param("username") String username);
+
+    // 2) JPQL(엔티티와 그 필드를 대상으로 SQL) 예시
+    // FROM TodoEntity t (엔티티 이름)
+    // AND t.checked = false (필드명 checked)
+    @Query("SELECT t FROM TodoEntity t WHERE t.username = :username AND t.checked = false")
+    List<TodoEntity> findIncompleteTodosByUsername(@Param("username") String username);
 }
