@@ -76,8 +76,6 @@ public class SampleDataTest {
             .build();
         users.add(user.getUsername());
         userRepository.save(user);
-
-
     }
 
     @Test
