@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsersRepository extends JpaRepository<UsersEntity, Long> {
 
+    UsersEntity findByUsername(String username);    // 유니크 컬럼
+
 }

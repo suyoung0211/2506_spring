@@ -25,6 +25,7 @@ public class UsersDTO {
     private LocalDate birth;
     private String nickname;
 
+    // 응담 DTO
     public static UsersDTO of(UsersEntity entity) {
         return UsersDTO.builder()
             .id(entity.getId())
@@ -36,6 +37,7 @@ public class UsersDTO {
             .build();
     }
 
+    // 리포지토리 save() 메소드에서 필요
     public static UsersEntity toEntity(UsersDTO dto) {
         return UsersEntity.builder()
             .id(dto.getId())

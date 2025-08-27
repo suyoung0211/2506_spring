@@ -29,11 +29,11 @@ public class UsersEntity {
     @Column(nullable = false)
     private String name;
     
-    @Column(nullable = false)
-    private String username;    // email 또는 계정 아이디
+    @Column(nullable = false, unique = true)
+    private String username;    // email 또는 계정 아이디 등 로그인에 사용하는 계정이름
 
     @Column(nullable = false)
-    private String password;
+    private String password;    // 해시함수 인코딩(암호화)
     
     private LocalDate birth;
 
