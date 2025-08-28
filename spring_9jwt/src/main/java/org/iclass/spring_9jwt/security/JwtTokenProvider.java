@@ -33,14 +33,14 @@ public class JwtTokenProvider {
         SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
         return Jwts.builder()
                 .signWith(secretKey)                    // 아래의 정보들을 개인키로 암호화한 전자서명 생성
-                .subject(userPrincipal.getUsername())   //여기서부터 토큰과 관련된 정보 저장
+                .subject(userPrincipal.getUsername())   // 여기서부터 토큰과 관련된 정보 저장
                 .issuer("org.iclass")               // 발급자 : 서비스 이름
                 .issuedAt(new Date())                   // 발급 날짜
                 .expiration(expiryDate)                 // 만료 날짜
                 .compact();
     }
     
- // 클라이언트가 보낸 토큰(메소드 인자 String token)을 검증하는 메소드
+    // 클라이언트가 보낸 토큰(메소드 인자 String token)을 검증하는 메소드
     public String getUsernameFromToken(String token) {
         
         SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -49,7 +49,7 @@ public class JwtTokenProvider {
         Jwts.parser()
                 .verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
 
-//       subject 는 username를 저장했으므로 토큰 값을 분해해서 얻은 subject 는 username 이다.
+    // subject 는 username를 저장했으므로 토큰 값을 분해해서 얻은 subject 는 username 이다.
          return claims.getSubject();
     }
     

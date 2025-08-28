@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,9 @@ public class SampleDataTest {
     @Autowired
     private BoardRepository boardRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     static List<String> users = new ArrayList<>();
 
     @Test
@@ -34,7 +38,7 @@ public class SampleDataTest {
     void createUsers() {    // 이름, 패스워드, username, role
         UsersEntity user = UsersEntity.builder()
             .name("aa")
-            .password("$2a$10$OUxvRoYhzlwrm1bwBMNf1.uou6jz8Jgegl.cVR/dRXnggC80QZH/.")
+            .password(passwordEncoder.encode("1111"))
             .username("aa@naver.com")
             .role(Role.USER)
             .build();
@@ -43,16 +47,16 @@ public class SampleDataTest {
         
         user = UsersEntity.builder()
             .name("bb")
-            .password("$2a$10$OUxvRoYhzlwrm1bwBMNf1.uou6jz8Jgegl.cVR/dRXnggC80QZH/.")
+            .password(passwordEncoder.encode("1111"))
             .username("bb@naver.com")
-            .role(Role.ADMIN)
+            .role(Role.ADMIN)   // ADMIM 권한 테스트용
             .build();
         users.add(user.getUsername());
         userRepository.save(user);
         
         user = UsersEntity.builder()
             .name("cc")
-            .password("$2a$10$OUxvRoYhzlwrm1bwBMNf1.uou6jz8Jgegl.cVR/dRXnggC80QZH/.")
+            .password(passwordEncoder.encode("1111"))
             .username("cc@naver.com")
             .role(Role.USER)
             .build();
@@ -61,7 +65,7 @@ public class SampleDataTest {
         
         user = UsersEntity.builder()
             .name("dd")
-            .password("$2a$10$OUxvRoYhzlwrm1bwBMNf1.uou6jz8Jgegl.cVR/dRXnggC80QZH/.")
+            .password(passwordEncoder.encode("1111"))
             .username("dd@naver.com")
             .role(Role.USER)
             .build();
@@ -70,7 +74,7 @@ public class SampleDataTest {
         
         user = UsersEntity.builder()
             .name("ee")
-            .password("$2a$10$OUxvRoYhzlwrm1bwBMNf1.uou6jz8Jgegl.cVR/dRXnggC80QZH/.")
+            .password(passwordEncoder.encode("1111"))
             .username("ee@naver.com")
             .role(Role.USER)
             .build();

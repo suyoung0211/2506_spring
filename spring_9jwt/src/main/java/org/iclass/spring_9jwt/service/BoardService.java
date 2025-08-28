@@ -26,8 +26,17 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     
+    // 전체 가져오기
     public List<BoardResponse> getAllBoards() {
         List<BoardEntity> boards = boardRepository.findAllByOrderByCreatedAtDesc();
+        return boards.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+    // username 으로 가져오기
+    public List<BoardResponse> getMyBoards(String username) {
+        List<BoardEntity> boards = boardRepository.findByUsernameOrderByCreatedAtDesc(username);
         return boards.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());

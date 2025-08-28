@@ -14,14 +14,15 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-                .info(new Info().title("API 문서").version("v1"))
-                .components(new Components()
-                    .addSecuritySchemes("bearer-key",
+                .info(new Info().title("API 문서").version("v1"))  // 문서 제목과 버전
+                .components(new Components()  // 보안 스키마 정의
+                    .addSecuritySchemes("bearer-key",  // 스키마 이름
                         new SecurityScheme()
-                            .type(SecurityScheme.Type.HTTP)
-                            .scheme("bearer")
-                            .bearerFormat("JWT")))
-                .addSecurityItem(new SecurityRequirement().addList("bearer-key"));
+                            .type(SecurityScheme.Type.HTTP)         // HTTP 기반 인증
+                            .scheme("bearer")                // Bearer 토큰 방식
+                            .bearerFormat("JWT")))     // 포맷은 JWT
+                .addSecurityItem(new SecurityRequirement()          // 실제 보안 적용
+                    .addList("bearer-key"));                   // 위에서 정의한 스키마 이름
     }
 }
 

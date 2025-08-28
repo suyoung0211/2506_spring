@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,15 +33,25 @@ public class BoardController {
     private final BoardService boardService;
     
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<BoardResponse>> getAllBoards() {
-        List<BoardResponse> boards = boardService.getAllBoards();
-        return ResponseEntity.ok(boards);
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<List<BoardResponse>> getAllBoards(
+        Authentication authentication,                          // 사용자 인증 정보
+        @RequestParam(name="me", required = false) String me    // 추가 파라미터
+        ) {
+        List<BoardResponse> boards = null;
+        if (me == null) {
+            boards = boardService.getAllBoards();
+        } else {
+            boards = boardService.getMyBoards(authentication.getName());
+        } return ResponseEntity.ok(boards);
     }
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<BoardResponse> getBoard(@PathVariable Long id) {
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    // 권한 OR. 권한이 여러개 설정한 경우 hasRole('ADMIN') adn hasRole('USER') 와 같이 and 조건 가능
+    public ResponseEntity<BoardResponse> getBoard(
+        @Parameter
+        @PathVariable("id") Long id) {
         BoardResponse board = boardService.getBoard(id);
         return ResponseEntity.ok(board);
     }
@@ -70,9 +82,10 @@ public class BoardController {
     }
     
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteBoard(
-            @PathVariable Long id,
+            @Parameter
+            @PathVariable("id") Long id,
             Authentication authentication) {
         
         String userEmail = authentication.getName();

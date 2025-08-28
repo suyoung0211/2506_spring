@@ -8,7 +8,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         '[format_sql]': true
@@ -28,4 +28,3 @@ springdoc:
 
 # http://localhost:8080/swagger-ui/index.html
 # http://localhost:8080/v3/api-docs(OpenAPI JSON 문서)
-
